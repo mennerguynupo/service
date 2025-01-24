@@ -1,0 +1,5 @@
+UParticleSystem* Particle = LoadObject<UParticleSystem>(nullptr, TEXT("/Game/Particles/Explosion"));
+if (Particle)
+{
+    UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Particle, GetActorLocation());
+}
