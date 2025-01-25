@@ -1,0 +1,7 @@
+void APhysicsActor::PushObject(FVector ForceDirection)
+{
+    if (UPrimitiveComponent* PrimitiveComp = Cast<UPrimitiveComponent>(GetComponentByClass(UPrimitiveComponent::StaticClass())))
+    {
+        PrimitiveComp->AddImpulse(ForceDirection * ImpulseStrength, NAME_None, true);
+    }
+}
