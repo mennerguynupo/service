@@ -1,0 +1,15 @@
+void AMyGameMode::SaveGame()
+{
+	UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
+	SaveGameInstance->PlayerScore = CurrentScore;
+	UGameplayStatics::SaveGameToSlot(SaveGameInstance, TEXT("MySlot"), 0);
+}
+
+void AMyGameMode::LoadGame()
+{
+	UMySaveGame* LoadGameInstance = Cast<UMySaveGame>(UGameplayStatics::LoadGameFromSlot(TEXT("MySlot"), 0));
+	if (LoadGameInstance)
+	{
+		CurrentScore = LoadGameInstance->PlayerScore;
+	}
+}
