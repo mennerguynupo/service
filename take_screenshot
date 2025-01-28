@@ -1,0 +1,8 @@
+import pyautogui
+
+def take_screenshot(output_file):
+    screenshot = pyautogui.screenshot()
+    screenshot.save(output_file)
+
+# 使用示例
+take_screenshot("screenshot.png")
