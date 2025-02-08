@@ -1,0 +1,23 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "TimerActor.generated.h"
+
+UCLASS()
+class MYPROJECT_API ATimerActor : public AActor
+{
+    GENERATED_BODY()
+
+public:	
+    ATimerActor();
+
+protected:
+    virtual void BeginPlay() override;
+    void OnTimerTick();
+
+    FTimerHandle TimerHandle;
+
+public:	
+    virtual void Tick(float DeltaTime) override;
+};
