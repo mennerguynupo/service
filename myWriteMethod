@@ -1,0 +1,10 @@
+const sender = '0xSenderAddress'; // 发起交易的账户地址
+
+myContract.methods.myWriteMethod(123, "参数示例")
+  .send({ from: sender, gas: 100000 })
+  .then(receipt => {
+    console.log('写操作交易成功，收据:', receipt);
+  })
+  .catch(error => {
+    console.error('写操作调用失败:', error);
+  });
