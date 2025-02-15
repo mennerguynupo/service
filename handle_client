@@ -1,0 +1,39 @@
+# 示例 5: 异步聊天室服务器
+import asyncio
+
+clients = set()
+
+async def handle_client(reader, writer):
+    addr = writer.get_extra_info('peername')
+    clients.add(writer)
+    print(f"{addr} 连接上了服务器.")
+    try:
+        while True:
+            data = await reader.readline()
+            if not data:
+                break
+            message = data.decode().strip()
+            broadcast_message = f"{addr}: {message}\n"
+            for client in clients:
+                if client != writer:
+                    client.write(broadcast_message.encode())
+                    await client.drain()
+    except Exception as e:
+        print(f"连接异常: {e}")
+    finally:
+        print(f"{addr} 断开连接.")
+        clients.remove(writer)
+        writer.close()
+
+async def main():
+    server = await asyncio.start_server(handle_client, '127.0.0.1', 8888)
+    addr = server.sockets[0].getsockname()
+    print(f'服务器启动在 {addr}')
+    async with server:
+        await server.serve_forever()
+
+if __name__ == '__main__':
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("服务器关闭.")
