@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# 检查参数是否传入
+if [ "$#" -lt 1 ]; then
+    echo "使用方法: $0 目录路径"
+    exit 1
+fi
+
+DIR="$1"
+
+# 检查目录是否存在
+if [ ! -d "$DIR" ]; then
+    echo "错误: 目录 $DIR 不存在."
+    exit 1
+fi
+
+echo "扫描目录: $DIR"
+
+# 遍历目录下的所有文件
+find "$DIR" -type f | while read FILE; do
+    if [ -r "$FILE" ]; then
+        echo "处理文件: $FILE"
+        # 例如：计算文件行数
+        LINES=$(wc -l < "$FILE")
+        echo "$FILE 包含 $LINES 行"
+    else
+        echo "无法读取文件: $FILE"
+    fi
+done
+
+echo "处理完成."
