@@ -1,0 +1,10 @@
+pragma solidity ^0.8.0;
+
+contract RequireExample {
+    uint256 public balance;
+
+    function deposit(uint256 amount) public {
+        require(amount > 0, "存款金额必须大于0");
+        balance += amount;
+    }
+}
