@@ -1,0 +1,16 @@
+import kotlinx.coroutines.*
+
+fun main() = runBlocking {
+    val jobs = mutableListOf<Job>()
+
+    for (i in 1..5) {
+        val job = launch(Dispatchers.IO) {
+            delay(1000L * i)
+            println("Task $i completed")
+        }
+        jobs.add(job)
+    }
+
+    jobs.forEach { it.join() }
+    println("All tasks completed")
+}
