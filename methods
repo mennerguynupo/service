@@ -1,0 +1,24 @@
+from flask import Flask, request, jsonify
+import sqlite3
+
+app = Flask(__name__)
+
+@app.route('/note', methods=['POST'])
+def add_note():
+    data = request.json
+    conn = sqlite3.connect('notes.db')
+    conn.execute("INSERT INTO notes (content) VALUES (?)", (data['content'],))
+    conn.commit()
+    return jsonify({"status": "ok"})
+
+@app.route('/note', methods=['GET'])
+def get_notes():
+    conn = sqlite3.connect('notes.db')
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM notes")
+    return jsonify(cur.fetchall())
+
+if __name__ == '__main__':
+    with sqlite3.connect('notes.db') as conn:
+        conn.execute("CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY, content TEXT)")
+    app.run()
