@@ -1,0 +1,10 @@
+WITH RECURSIVE OrgChart AS (
+  SELECT id, name, manager_id, 1 AS level
+  FROM employees
+  WHERE manager_id IS NULL
+  UNION ALL
+  SELECT e.id, e.name, e.manager_id, oc.level + 1
+  FROM employees e
+  INNER JOIN OrgChart oc ON e.manager_id = oc.id
+)
+SELECT * FROM OrgChart ORDER BY level, name;
