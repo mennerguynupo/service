@@ -1,0 +1,25 @@
+import java.lang.annotation.*;
+import java.lang.reflect.*;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+@interface Log {}
+
+class Test {
+    @Log
+    public void doSomething() {
+        System.out.println("Doing something important...");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Test test = new Test();
+        for (Method method : test.getClass().getDeclaredMethods()) {
+            if (method.isAnnotationPresent(Log.class)) {
+                System.out.println("Logging before method: " + method.getName());
+                method.invoke(test);
+            }
+        }
+    }
+}
