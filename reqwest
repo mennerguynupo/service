@@ -1,0 +1,11 @@
+use reqwest::Error;
+
+#[tokio::main]
+async fn main() -> Result<(), Error> {
+    let body = reqwest::get("https://httpbin.org/get")
+        .await?
+        .text()
+        .await?;
+    println!("Body:\n{}", body);
+    Ok(())
+}
